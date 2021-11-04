@@ -44,6 +44,8 @@ module.exports = {
     utils: {
       build: { failBuild },
     },
+    // allows the Blitz.js plugin to inject custom handler code
+    getHandler,
   }) {
     const { publish } = netlifyConfig.build
 
@@ -53,7 +55,7 @@ module.exports = {
 
     configureHandlerFunctions({ netlifyConfig, ignore, publish: relative(process.cwd(), publish) })
 
-    await generateFunctions(constants, appDir)
+    await generateFunctions(constants, appDir, getHandler)
     await generatePagesResolver({ netlifyConfig, target, constants })
 
     await movePublicFiles({ appDir, publish })

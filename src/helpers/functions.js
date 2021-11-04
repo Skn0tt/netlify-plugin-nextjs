@@ -2,7 +2,7 @@ const { copyFile, ensureDir, writeFile, writeJSON } = require('fs-extra')
 const { join, relative } = require('pathe')
 
 const { HANDLER_FUNCTION_NAME, ODB_FUNCTION_NAME, IMAGE_FUNCTION_NAME } = require('../constants')
-const getHandler = require('../templates/getHandler')
+const defaultGetHandler = require('../templates/getHandler')
 const { getPageResolver } = require('../templates/getPageResolver')
 
 const DEFAULT_FUNCTIONS_SRC = 'netlify/functions'
@@ -10,6 +10,7 @@ const DEFAULT_FUNCTIONS_SRC = 'netlify/functions'
 exports.generateFunctions = async (
   { FUNCTIONS_SRC = DEFAULT_FUNCTIONS_SRC, INTERNAL_FUNCTIONS_SRC, PUBLISH_DIR },
   appDir,
+  getHandler = defaultGetHandler,
 ) => {
   const functionsDir = INTERNAL_FUNCTIONS_SRC || FUNCTIONS_SRC
   const bridgeFile = require.resolve('@vercel/node/dist/bridge')
